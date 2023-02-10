@@ -13,7 +13,11 @@ export const afterSocketIOStart = async (io: any) => {
       let userid: string = null;
       if (process.env.token_checker_api) {
         const [response, err] = await httpClient.post(
-          `${process.env.token_checker_api}`
+          `${process.env.token_checker_api}`,
+          {
+            accesskey: process.env.token_checker_api_key,
+            token,
+          }
         );
         if (err || !response || response.status != 200 || !response.data) {
           socket.disconnect();
