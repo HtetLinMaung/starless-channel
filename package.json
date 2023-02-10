@@ -1,0 +1,36 @@
+{
+  "name": "starless-channel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && starless-server start",
+    "watch": "tsc -w",
+    "dev": "nodemon node_modules/starless-server start",
+    "build": "tsc && starless-server build --azure-functions --aws-sam-lambda",
+    "test": "jest --verbose"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@azure/functions": "^3.5.0",
+    "@types/aws-lambda": "^8.10.110",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/express": "^4.17.17",
+    "@types/jest": "^29.4.0",
+    "@types/jsonwebtoken": "^9.0.1",
+    "@types/node": "^18.13.0",
+    "jest": "^29.4.2",
+    "nodemon": "^2.0.20",
+    "starless-server": "^1.11.9",
+    "ts-jest": "^29.0.5",
+    "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "code-alchemy": "^1.4.5",
+    "jsonwebtoken": "^9.0.0",
+    "starless-http": "^1.0.1"
+  }
+}
