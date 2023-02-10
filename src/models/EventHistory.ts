@@ -24,4 +24,6 @@ const eventHistorySchema = new Schema(
   { timestamps: true }
 );
 
+eventHistorySchema.index({ "$**": "text" });
+
 export default model<EventHistoryModel>("EventHistory", eventHistorySchema);
