@@ -1,5 +1,6 @@
 import { brewBlankExpressFunc, throwErrorResponse } from "code-alchemy";
 import server from "starless-server";
+import { saveEventHistories } from "../../../services/event";
 
 export default brewBlankExpressFunc(async (req, res) => {
   const { accesskey, rooms, event, payload } = req.body;
@@ -32,6 +33,11 @@ export default brewBlankExpressFunc(async (req, res) => {
     }
   }
 
+  await saveEventHistories(
+    event,
+    Array.isArray(rooms) ? rooms : [rooms],
+    payload
+  );
   res.json({
     code: 200,
     message: "Event emited successful.",

@@ -31,6 +31,8 @@
     "bcryptjs": "^2.4.3",
     "code-alchemy": "^1.4.5",
     "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.9.1",
+    "starless-async": "^1.1.2",
     "starless-http": "^1.0.1"
   }
 }
