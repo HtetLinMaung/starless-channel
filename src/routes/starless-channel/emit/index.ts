@@ -15,31 +15,26 @@ export default brewBlankExpressFunc(async (req, res) => {
   // } else if (!rooms) {
   //   throwErrorResponse(400, "rooms is required!");
   // }
-  const io = server.getIO();
-  if (!io) {
-    throwErrorResponse(500, "socket.io is not initialized!");
-  }
-  if (!rooms || (Array.isArray(rooms) && !rooms.length)) {
-    if (payload) {
-      io.emit(event, payload);
-    } else {
-      io.emit(event);
-    }
-  } else {
-    if (payload) {
-      io.to(rooms).emit(event, payload);
-    } else {
-      io.to(rooms).emit(event);
-    }
-  }
-
-  await saveEventHistories(
+  const eventid = await saveEventHistories(
     event,
     Array.isArray(rooms) ? rooms : [rooms],
     payload
   );
+
+  const io = server.getIO();
+  if (!io) {
+    throwErrorResponse(500, "socket.io is not initialized!");
+  }
+  const eventData = { eventid, payload };
+  if (!rooms || (Array.isArray(rooms) && !rooms.length)) {
+    io.emit(event, eventData);
+  } else {
+    io.to(rooms).emit(event, eventData);
+  }
+
   res.json({
     code: 200,
     message: "Event emited successful.",
+    data: eventid,
   });
 });
