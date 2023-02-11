@@ -11,8 +11,7 @@ export const saveEventHistories = async (
   const eventid = v4();
   if (process.env.connection_string) {
     await connectMongoose();
-
-    await asyncEach(rooms, async (room) => {
+    asyncEach(rooms, async (room) => {
       const eventHistory = new EventHistory({
         eventid,
         name,
