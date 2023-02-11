@@ -10,11 +10,7 @@ export default brewBlankExpressFunc(async (req, res) => {
   if (!event) {
     throwErrorResponse(400, "event is required!");
   }
-  // if (Array.isArray(rooms) && !rooms.length) {
-  //   throwErrorResponse(400, "At lease one room id is required to emit event!");
-  // } else if (!rooms) {
-  //   throwErrorResponse(400, "rooms is required!");
-  // }
+
   const eventid = await saveEventHistories(
     event,
     Array.isArray(rooms) ? rooms : [rooms],
