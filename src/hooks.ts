@@ -1,8 +1,12 @@
 import httpClient from "starless-http";
 import jwt from "jsonwebtoken";
+import connectMongoose from "./utils/connect-mongoose";
+import EventHistory from "./models/EventHistory";
 
 export const afterSocketIOStart = async (io: any) => {
   console.log("After socket io started");
+  // await connectMongoose();
+  // await EventHistory.deleteMany({});
   io.use(async (socket: any, next: any) => {
     try {
       const token: string = socket.handshake.auth.token;
