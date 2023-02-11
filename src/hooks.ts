@@ -1,16 +1,18 @@
 import httpClient from "starless-http";
 import jwt from "jsonwebtoken";
+import server from "starless-server";
 import connectMongoose from "./utils/connect-mongoose";
 import EventHistory from "./models/EventHistory";
+import log from "./utils/log";
 
 export const afterSocketIOStart = async (io: any) => {
-  console.log("After socket io started");
+  log("After socket io started");
   // await connectMongoose();
   // await EventHistory.deleteMany({});
   io.use(async (socket: any, next: any) => {
     try {
       const token: string = socket.handshake.auth.token;
-      console.log(`token: ${token}`);
+      log(`token: ${token}`);
       if (!token) {
         socket.disconnect();
       }
@@ -32,10 +34,15 @@ export const afterSocketIOStart = async (io: any) => {
         userid = payload.userid;
       }
       if (userid) {
-        console.log(`Join user ${userid}`);
+        log(`Join user ${userid}`);
         socket.join(userid);
+        server.sharedMemory.set(socket.id, userid);
+        setTimeout(() => {
+          io.emit("joined-user", Object.values(server.sharedMemory.getAll()));
+        }, 3000);
       }
     } catch (err) {
+      socket.emit("error", err.message);
       console.error(err.message);
       socket.disconnect();
     }

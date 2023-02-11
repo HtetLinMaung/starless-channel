@@ -1,8 +1,12 @@
+import server from "starless-server";
 import EventHistory from "../models/EventHistory";
 import connectMongoose from "../utils/connect-mongoose";
+import log from "../utils/log";
 
 export default (io: any, socket: any) => async (eventid: string) => {
   try {
+    const userid = server.sharedMemory.get(socket.id);
+    log(`Received event ${eventid} triggered by ${userid}`);
     await connectMongoose();
     const eventHistory = await EventHistory.findById(eventid);
     if (eventHistory) {
@@ -10,6 +14,7 @@ export default (io: any, socket: any) => async (eventid: string) => {
       await eventHistory.save();
     }
   } catch (err) {
-    console.log(err);
+    socket.emit("error", err.message);
+    console.error(err);
   }
 };

@@ -10,6 +10,7 @@ export default (io: any, socket: any) => async (eventid: string) => {
       await eventHistory.save();
     }
   } catch (err) {
-    console.log(err);
+    socket.emit("error", err.message);
+    console.error(err);
   }
 };
