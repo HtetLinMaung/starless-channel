@@ -35,12 +35,13 @@ export const afterSocketIOStart = async (io: any) => {
           throw new Error(message);
         }
         userid = response.data;
+        log(JSON.stringify(userid, null, 2));
       } else if (process.env.jwt_secret) {
         const payload: any = jwt.verify(token, process.env.jwt_secret);
+        log(JSON.stringify(payload, null, 2));
         userid = payload.userid;
       }
       if (userid) {
-        console.log(userid);
         log(`Join user ${userid}`);
         socket.join(userid);
         server.sharedMemory.set(socket.id, userid);
