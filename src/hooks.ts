@@ -11,6 +11,7 @@ export const afterSocketIOStart = async (io: any) => {
   // await EventHistory.deleteMany({});
   io.use(async (socket: any, next: any) => {
     try {
+      console.log(socket.handshake);
       const token: string = socket.handshake.auth.token;
       log(`token: ${token}`);
       if (!token) {
