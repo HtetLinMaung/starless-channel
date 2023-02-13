@@ -34,6 +34,7 @@ export const afterSocketIOStart = async (io: any) => {
         userid = payload.userid;
       }
       if (userid) {
+        console.log(userid);
         log(`Join user ${userid}`);
         socket.join(userid);
         server.sharedMemory.set(socket.id, userid);
