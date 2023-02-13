@@ -7,8 +7,7 @@ export default (io: any, socket: any) => async (token: string) => {
   try {
     log(`token: ${token}`);
     if (!token) {
-      return log("Token is required!");
-      //   throw new Error("Token is required!");
+      throw new Error("Token is required!");
     }
     let userid: string = null;
     if (process.env.token_checker_api) {

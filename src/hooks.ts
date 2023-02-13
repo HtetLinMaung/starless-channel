@@ -15,7 +15,7 @@ export const afterSocketIOStart = async (io: any) => {
       const token: string = socket.handshake.auth.token;
       log(`token: ${token}`);
       if (!token) {
-        throw new Error("Token is required!");
+        return next();
       }
       let userid: string = null;
       if (process.env.token_checker_api) {
