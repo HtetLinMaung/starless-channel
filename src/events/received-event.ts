@@ -8,7 +8,7 @@ export default (io: any, socket: any) => async (eventid: string) => {
     const userid = server.sharedMemory.get(socket.id);
     log(`Received event ${eventid} triggered by ${userid}`);
     await connectMongoose();
-    const eventHistory = await EventHistory.findById(eventid);
+    const eventHistory = await EventHistory.findOne({ eventid, room: userid });
     if (eventHistory) {
       eventHistory.status = "received";
       await eventHistory.save();
