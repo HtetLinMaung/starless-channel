@@ -14,7 +14,7 @@ export const afterSocketIOStart = async (io: any) => {
       const token: string = socket.handshake.auth.token;
       log(`token: ${token}`);
       if (!token) {
-        socket.disconnect();
+        throw new Error("Token is required!");
       }
       let userid: string = null;
       if (process.env.token_checker_api) {
@@ -26,7 +26,13 @@ export const afterSocketIOStart = async (io: any) => {
           }
         );
         if (err || !response || response.status != 200 || !response.data) {
-          socket.disconnect();
+          let message = "Something went wrong!";
+          if (response && response.data) {
+            message = response.data.message;
+          } else if (err) {
+            message = err.message;
+          }
+          throw new Error(message);
         }
         userid = response.data;
       } else if (process.env.jwt_secret) {
