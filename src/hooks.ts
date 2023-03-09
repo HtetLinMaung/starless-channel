@@ -59,31 +59,31 @@ export const afterSocketIOStart = async (io: any) => {
   });
 };
 
-export const afterSocketConnected = async (io: any, socket: any) => {
-  try {
-    log(`Socket ID ${socket.id} connected`);
-    if (process.env.after_connected_api) {
-      const userid = server.sharedMemory.get(socket.id);
-      const [response, err] = await httpClient.post(
-        `${process.env.after_connected_api}`,
-        {
-          accesskey: process.env.after_connected_api_key,
-          socketId: socket.id,
-          userid,
-        }
-      );
-      if (err || !response || response.status != 200 || !response.data) {
-        let message = "Something went wrong!";
-        if (response && response.data) {
-          message = response.data.message;
-        } else if (err) {
-          message = err.message;
-        }
-        throw new Error(message);
-      }
-    }
-  } catch (err) {
-    socket.emit("error", err.message);
-    console.error(err.message);
-  }
-};
+// export const afterSocketConnected = async (io: any, socket: any) => {
+//   try {
+//     log(`Socket ID ${socket.id} connected`);
+//     if (process.env.after_connected_api) {
+//       const userid = server.sharedMemory.get(socket.id);
+//       const [response, err] = await httpClient.post(
+//         `${process.env.after_connected_api}`,
+//         {
+//           accesskey: process.env.after_connected_api_key,
+//           socketId: socket.id,
+//           userid,
+//         }
+//       );
+//       if (err || !response || response.status != 200 || !response.data) {
+//         let message = "Something went wrong!";
+//         if (response && response.data) {
+//           message = response.data.message;
+//         } else if (err) {
+//           message = err.message;
+//         }
+//         throw new Error(message);
+//       }
+//     }
+//   } catch (err) {
+//     socket.emit("error", err.message);
+//     console.error(err.message);
+//   }
+// };
