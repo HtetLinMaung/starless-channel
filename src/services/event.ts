@@ -19,6 +19,7 @@ export const saveEventHistories = async (
         payload: payload || null,
       });
       await eventHistory.save();
+      console.log(eventHistory);
       return eventHistory;
     });
   }
