@@ -1,7 +1,7 @@
 import { brewBlankExpressFunc, throwErrorResponse } from "code-alchemy";
-import log from "../utils/log";
 import connectMongoose from "../../../utils/connect-mongoose";
 import EventHistory from "../../../models/EventHistory";
+import log from "../../../utils/log";
 
 export default brewBlankExpressFunc(async (req, res) => {
   const { eventid, userid, accesskey } = req.body;
